@@ -11,6 +11,48 @@ Gain more practical experience by using this repository that contains a Python W
 1. Enable your [GitHub Copilot service](https://github.com/github-copilot/signup)
 1. Open [this repository with Codespaces](https://codespaces.new/MicrosoftDocs/mslearn-copilot-codespaces-python)
 
+## 🚀 Run the project
+
+The project is a [FastAPI](https://fastapi.tiangolo.com/) app (`main.py`) that serves historical weather data from `weather.json`.
+
+### Option 1: GitHub Codespaces or Dev Container (recommended)
+
+The dev container installs Python 3.10 and all dependencies in `/home/vscode/venv`, and starts the server automatically on port 8000 when you attach. Open the forwarded port 8000 (labelled "Application") to see the API.
+
+### Option 2: Run locally
+
+Requires Python 3.10 or later.
+
+```bash
+# 1. Create and activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Start the server (auto-reloads on code changes)
+uvicorn main:app --reload
+```
+
+The API is then available at <http://127.0.0.1:8000>. Opening `/` redirects to the interactive documentation at `/docs`. When running in a container or Codespace, add `--host 0.0.0.0` so the forwarded port can reach the server.
+
+### Available endpoints
+
+| Method | Path | Description |
+| ------ | ---- | ----------- |
+| GET | `/countries` | List the available countries |
+| GET | `/countries/{country}` | List the cities of a country, e.g. `/countries/Spain` returns `["Seville"]` |
+| GET | `/countries/{country}/{city}/{month}` | Historical high and low for a city in a month, e.g. `/countries/Spain/Seville/July` |
+
+Starting the app also regenerates the OpenAPI schema at `.well-known/openapi.json`.
+
+### Run the tests
+
+```bash
+pytest
+```
+
 ## 💪🏽 Exercise
 The current API is not exposing country/{country} which needs to be implemented to list cities. The route should allow only GET HTTP requests with a JSON response providing information from the historical high and low for that country, city, and given month.
 

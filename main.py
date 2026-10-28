@@ -1,5 +1,6 @@
 import json
 from os.path import dirname, abspath, join
+from typing import List
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -29,6 +30,12 @@ def root():
 @app.get('/countries')
 def countries():
     return list(data.keys())
+
+
+@app.get('/countries/{country}')
+def cities(country: str) -> List[str]:
+    """Return the cities with historical weather data for a country."""
+    return list(data[country].keys())
 
 
 @app.get('/countries/{country}/{city}/{month}')
